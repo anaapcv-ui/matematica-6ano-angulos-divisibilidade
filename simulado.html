@@ -372,7 +372,7 @@ function exportar(){const d=localStorage.getItem(CHAVE);if(!d){alert('Nada para 
 function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{JSON.parse(e.target.result);if(confirm('Substituir o progresso atual?')){localStorage.setItem(CHAVE,e.target.result);toast('📤 Importado!');setTimeout(()=>location.reload(),700);}}catch(x){alert('Arquivo inválido.');}};r.readAsText(f);ev.target.value='';}
 function zerar(){if(!confirm('Apagar todas as respostas?'))return;localStorage.removeItem(CHAVE);toast('🗑️ Zerado!');setTimeout(()=>location.reload(),700);}
 
-init();
+init();atualizarProgresso();
 </script>
 </body>
 </html>
