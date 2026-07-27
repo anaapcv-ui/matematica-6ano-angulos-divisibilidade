@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛰️ Simulado — Estação Geometria | Ângulos & Divisibilidade</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fundo:#070d23;--card:#111d45;--card2:#16265c;--borda:#294a8f;
+  --azul:#4da6ff;--azul-claro:#8fd0ff;--laranja:#ff8c42;--laranja2:#ffb27a;
+  --verde:#3ad29f;--verde-bg:#0c3a34;--vermelho:#ff6b6b;--vermelho-bg:#4a1e2a;
+  --amarelo:#ffd34d;--texto:#eaf1ff;--texto2:#9fb3d9;--raio:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;color:var(--texto);
+  background:linear-gradient(180deg,#050818 0%,#070d23 30%,#0b1430 70%,#0e1a3e 100%);
+  background-attachment:fixed;min-height:100vh;line-height:1.6;padding-bottom:90px;}
+.estrelas{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.estrela{position:absolute;border-radius:50%;background:#fff;animation:pisca ease-in-out infinite;}
+@keyframes pisca{0%,100%{opacity:.2;}50%{opacity:1;}}
+
+.header{position:relative;z-index:1;background:linear-gradient(135deg,#0a1a3e,#10275a);
+  text-align:center;padding:30px 18px 24px;border-bottom:4px solid var(--vermelho);}
+.header .selo{display:inline-block;background:rgba(255,107,107,.15);border:1px solid var(--vermelho);color:#ffb3b3;
+  font-size:11px;font-weight:800;letter-spacing:3px;padding:4px 14px;border-radius:20px;margin-bottom:10px;font-family:'Orbitron';}
+.header h1{font-family:'Orbitron';font-weight:800;font-size:clamp(22px,5vw,34px);}
+.header p{color:var(--texto2);font-size:14px;margin-top:8px;}
+
+.wrap{max-width:800px;margin:0 auto;padding:20px 16px;position:relative;z-index:1;}
+.painel{background:rgba(17,29,69,.7);border:1px solid var(--borda);border-radius:12px;padding:10px 14px;margin-bottom:16px;
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;font-size:12px;}
+.painel .info{color:var(--texto2);flex:1;min-width:180px;}
+.painel .info b{color:var(--texto);}
+.painel .btns{display:flex;gap:6px;flex-wrap:wrap;}
+.mini{background:transparent;border:1px solid var(--borda);color:var(--texto2);padding:5px 11px;border-radius:16px;cursor:pointer;font-size:11px;font-weight:800;font-family:'Nunito';transition:.2s;}
+.mini:hover{border-color:var(--azul);color:var(--azul-claro);}
+.mini.zerar:hover{border-color:var(--vermelho);color:var(--vermelho);}
+.instru{background:rgba(255,140,66,.08);border:1px solid var(--laranja);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13.5px;color:var(--laranja2);}
+
+.progress-c{position:sticky;top:0;z-index:20;background:rgba(7,13,35,.95);backdrop-filter:blur(6px);padding:10px 14px;border-radius:0 0 12px 12px;border:1px solid var(--borda);margin-bottom:16px;}
+.progress-top{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--texto2);margin-bottom:6px;}
+.progress-trilho{height:12px;background:#0a1533;border-radius:8px;overflow:hidden;border:1px solid var(--borda);}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--azul),var(--laranja));transition:width .4s;}
+
+.bloco-tit{font-family:'Orbitron';font-size:16px;margin:22px 0 6px;padding:8px 12px;border-left:5px solid var(--azul);background:rgba(77,166,255,.08);border-radius:8px;}
+.bloco-tit.rea{border-left-color:var(--laranja);background:rgba(255,140,66,.08);}
+.bloco-tit.rom{border-left-color:var(--amarelo);background:rgba(255,211,77,.08);}
+
+.q-card{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:16px;margin-bottom:14px;box-shadow:0 6px 18px rgba(0,0,0,.25);position:relative;}
+.q-card.faltando{border-color:var(--vermelho);animation:treme .4s;}
+@keyframes treme{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+.q-num{position:absolute;top:-10px;left:14px;background:var(--azul);color:#022;font-family:'Orbitron';font-weight:700;font-size:12px;padding:2px 10px;border-radius:12px;}
+.q-texto{font-weight:700;font-size:15.5px;margin:8px 0 12px;}
+.afirm{background:#0a1533;border:1px solid var(--borda);border-radius:8px;padding:10px 12px;margin:8px 0 12px;font-size:14.5px;}
+.afirm div{margin:4px 0;}
+.opcao{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:2px solid var(--borda);border-radius:9px;margin-bottom:7px;cursor:pointer;transition:.18s;font-size:14.5px;color:var(--texto2);}
+.opcao:hover{border-color:var(--azul);background:rgba(77,166,255,.07);}
+.opcao.selecionada{border-color:var(--azul);background:rgba(77,166,255,.14);color:var(--texto);font-weight:700;}
+.opcao-letra{min-width:24px;height:24px;border-radius:50%;background:#0a1533;display:grid;place-items:center;font-size:12px;font-weight:800;flex-shrink:0;}
+.opcao.selecionada .opcao-letra{background:var(--azul);color:#022;}
+.q-card.bloqueada .opcao{pointer-events:none;}
+.opcao.resposta-certa{border-color:var(--verde);background:var(--verde-bg);color:#cfeede;}
+.opcao.resposta-certa .opcao-letra{background:var(--verde);color:#022;}
+.opcao.correta{border-color:var(--verde);background:var(--verde-bg);}
+.opcao.errada{border-color:var(--vermelho);background:var(--vermelho-bg);}
+.opcao.errada .opcao-letra{background:var(--vermelho);color:#fff;}
+.feedback{display:none;margin-top:10px;border-radius:8px;padding:11px 13px;font-size:13.5px;line-height:1.5;}
+.feedback.acertou{background:var(--verde-bg);border:1px solid var(--verde);}
+.feedback.errou{background:#111d45;border:1px solid var(--borda);}
+.feedback-titulo{font-weight:800;margin-bottom:5px;}
+.feedback.acertou .feedback-titulo{color:var(--verde);}
+.feedback.errou .feedback-titulo{color:#ffb3b3;}
+.feedback-erradas{margin-top:8px;padding-top:8px;border-top:1px dashed var(--borda);color:var(--texto2);}
+.feedback-erradas p{margin:3px 0;}
+
+.bottomBar{position:fixed;bottom:0;left:0;right:0;background:rgba(7,13,35,.97);border-top:1px solid var(--borda);padding:12px 16px;z-index:40;text-align:center;}
+.avisoFaltam{display:none;color:#ffb3b3;font-size:12.5px;margin-bottom:6px;}
+.btn-enviar{background:var(--vermelho);color:#fff;border:none;border-radius:24px;padding:12px 40px;font-family:'Orbitron';font-weight:700;font-size:15px;cursor:pointer;transition:.2s;}
+.btn-enviar.desabilitado{background:#3a2530;color:#8a6a72;cursor:not-allowed;}
+.btn-enviar.ativo:hover{background:#ff8585;}
+
+.overlay{position:fixed;inset:0;background:rgba(3,6,18,.85);display:none;align-items:center;justify-content:center;z-index:60;padding:20px;}
+.overlay.visivel{display:flex;}
+.res-box{background:linear-gradient(135deg,#0c2050,#10275a);border:2px solid var(--azul);border-radius:20px;padding:28px 24px;max-width:400px;text-align:center;}
+.res-box .emoji{font-size:50px;}
+.res-box h2{font-family:'Orbitron';font-size:20px;margin:8px 0;}
+.res-box .nota{font-family:'Orbitron';font-size:34px;color:var(--amarelo);margin:6px 0;}
+.res-box .msg{color:var(--texto2);font-size:14px;margin-bottom:14px;}
+.res-box .codigo{background:#0a1533;border:1px dashed var(--laranja);border-radius:10px;padding:12px;font-family:monospace;font-size:22px;color:var(--laranja2);letter-spacing:2px;margin-bottom:14px;}
+.res-box button{background:var(--azul);color:#022;border:none;border-radius:20px;padding:11px 28px;font-family:'Orbitron';font-weight:700;font-size:14px;cursor:pointer;}
+.trava-msg{display:none;background:var(--vermelho-bg);border:1px solid var(--vermelho);border-radius:12px;padding:16px;margin-bottom:16px;text-align:center;font-size:14px;}
+.trava-msg.visivel{display:block;}
+.resultadoBarra{display:none;position:sticky;top:0;z-index:25;background:#0c2050;border:1px solid var(--azul);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-weight:700;font-size:13.5px;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.resultadoBarra.visivel{display:flex;}
+.rbStatus.bloqueado{color:#ffb3b3;}
+.rbStatus.liberado{color:var(--verde);}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(40px);background:#0c2050;border:1px solid var(--azul);color:var(--texto);padding:12px 20px;border-radius:30px;font-weight:700;font-size:14px;z-index:99;opacity:0;transition:.3s;pointer-events:none;}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="estrelas" id="estrelas"></div>
+<div class="header">
+  <span class="selo">ESTAÇÃO GEOMETRIA · TESTE FINAL</span>
+  <h1>🛰️ Simulado</h1>
+  <p>Matemática · 6º ano · Ângulos & Divisibilidade — Avaliação Mensal 1 (2º trimestre)</p>
+</div>
+
+<div class="wrap">
+  <div class="painel">
+    <div class="info">💾 Salvo automaticamente · Último: <b id="ultimo">—</b></div>
+    <div class="btns">
+      <button class="mini" onclick="exportar()">📥 Exportar</button>
+      <label class="mini" style="cursor:pointer;">📤 Importar<input type="file" accept="application/json" onchange="importar(event)" style="display:none;"></label>
+      <button class="mini zerar" onclick="zerar()">🗑️ Zerar</button>
+    </div>
+  </div>
+  <div class="instru">🎯 São <b id="totQ">–</b> questões. Responda todas e clique em <b>Enviar</b>. Você recebe um <b>código</b> para mostrar a um adulto — só com ele o gabarito comentado é liberado. Nas 3 últimas questões, leia as afirmativas I, II, III e IV e escolha a alternativa certa.</div>
+
+  <div class="progress-c">
+    <div class="progress-top"><span id="progTexto">0 de 0 respondidas</span><span id="progPct">0%</span></div>
+    <div class="progress-trilho"><div class="progress-fill" id="progFill"></div></div>
+  </div>
+
+  <div class="resultadoBarra" id="resultadoBarra">
+    <span id="rbNota">📋</span>
+    <span class="rbStatus bloqueado" id="rbStatus">🔒 Gabarito bloqueado</span>
+    <span id="rbCodigo" style="font-family:monospace;color:var(--laranja2);"></span>
+  </div>
+
+  <div id="simArea"></div>
+</div>
+
+<div class="bottomBar" id="bottomBar">
+  <div class="avisoFaltam" id="avisoFaltam"></div>
+  <button class="btn-enviar desabilitado" id="btnEnviar" onclick="tentarEnviar()">🚀 Enviar respostas</button>
+</div>
+
+<div class="overlay" id="resultadoOverlay">
+  <div class="res-box">
+    <div class="emoji" id="resEmoji">🛰️</div>
+    <h2 id="resTitulo"></h2>
+    <div class="nota" id="resNota"></div>
+    <div class="msg" id="resMsg"></div>
+    <div class="codigo" id="resCodigo"></div>
+    <button onclick="fecharResultado()">Ver meu código</button>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+const SIM=[
+ // ===== BLOCO ÂNGULOS =====
+ {bloco:"📐 Bloco 1 — Módulo Radar (Ângulos)"},
+ {q:"O que é um ângulo?",opts:["Uma única linha reta","A região do plano limitada por duas semirretas de mesma origem","Um ponto qualquer do plano","A distância entre dois pontos"],correta:1,
+  explicacao:"Ângulo é a região formada por duas semirretas que partem do mesmo ponto (a mesma origem).",
+  erradas:{0:"Uma linha reta sozinha não forma ângulo; são precisas duas semirretas.",2:"Um ponto não é um ângulo.",3:"Distância entre pontos é medida de comprimento, não ângulo."}},
+ {q:"No ângulo M Ô P, qual ponto é o vértice?",opts:["M","O","P","Nenhum"],correta:1,
+  explicacao:"A letra do meio é sempre o vértice. Aqui o vértice é o ponto O.",
+  erradas:{0:"M é uma das pontas (um lado), não o vértice.",2:"P é a outra ponta (um lado), não o vértice.",3:"Sempre há um vértice: a letra do meio."}},
+ {q:"Qual instrumento usamos para medir a abertura de um ângulo?",opts:["Régua","Transferidor","Compasso","Balança"],correta:1,
+  explicacao:"O transferidor é o instrumento próprio para medir ângulos, em graus.",
+  erradas:{0:"A régua mede comprimento, não ângulo.",2:"O compasso serve para traçar circunferências.",3:"A balança mede massa."}},
+ {q:"Qual é a unidade de medida de um ângulo, e quantos graus tem uma volta completa?",opts:["Metro; 100 m","Grau (°); 360°","Litro; 180 L","Grau (°); 180°"],correta:1,
+  explicacao:"Ângulos são medidos em graus (°), e a circunferência completa tem 360°.",
+  erradas:{0:"Metro é unidade de comprimento.",2:"Litro é unidade de capacidade.",3:"A unidade está certa, mas a volta completa é 360°, não 180°."}},
+ {q:"Um ângulo que mede exatamente 90° é chamado de:",opts:["Agudo","Reto","Obtuso","Raso"],correta:1,
+  explicacao:"Exatamente 90° é o ângulo reto (a quina perfeita).",
+  erradas:{0:"Agudo mede menos que 90°.",2:"Obtuso mede mais que 90° e menos que 180°.",3:"Raso mede 180°."}},
+ {q:"Um ângulo de 25° é classificado como:",opts:["Agudo","Reto","Obtuso","Raso"],correta:0,
+  explicacao:"25° está entre 0° e 90°, então é um ângulo agudo.",
+  erradas:{1:"Reto é exatamente 90°.",2:"Obtuso fica entre 90° e 180°.",3:"Raso é 180°."}},
+ {q:"Um ângulo de 145° é classificado como:",opts:["Agudo","Reto","Obtuso","Raso"],correta:2,
+  explicacao:"145° está entre 90° e 180°, então é obtuso.",
+  erradas:{0:"Agudo é menor que 90°.",1:"Reto é exatamente 90°.",3:"Raso é exatamente 180°; 145° é menor que isso."}},
+ {q:"O ângulo que mede 180° (as duas semirretas formam uma linha reta) chama-se:",opts:["Agudo","Obtuso","Raso","Reto"],correta:2,
+  explicacao:"180° é o ângulo raso, também chamado de meia-volta.",
+  erradas:{0:"Agudo é menor que 90°.",1:"Obtuso fica entre 90° e 180°.",3:"Reto é 90°."}},
+ {q:"Duas retas que se cruzam formando um ângulo de 90° são chamadas de:",opts:["Paralelas","Perpendiculares","Curvas","Iguais"],correta:1,
+  explicacao:"Retas que formam 90° entre si são perpendiculares.",
+  erradas:{0:"Paralelas nunca se cruzam.",2:"Curvas não são retas.",3:"'Iguais' não é classificação de retas que se cruzam."}},
+ {q:"No relógio, cada número (de um ao seguinte) corresponde a quantos graus?",opts:["10°","30°","45°","60°"],correta:1,
+  explicacao:"O mostrador tem 360° divididos em 12 números: 360 ÷ 12 = 30° por número.",
+  erradas:{0:"10° daria 36 divisões, não 12.",2:"45° daria 8 divisões.",3:"60° daria 6 divisões."}},
+ {q:"Que ângulo os ponteiros formam às 3 horas?",opts:["30°","60°","90°","120°"],correta:2,
+  explicacao:"Das 12 às 3 há 3 intervalos: 3 × 30° = 90° (ângulo reto).",
+  erradas:{0:"30° é apenas 1 intervalo (1 hora).",1:"60° são 2 intervalos (às 2 horas).",3:"120° seriam 4 intervalos (às 4 horas)."}},
+ {q:"(Obmep) Qual é a medida do menor ângulo formado pelos ponteiros de um relógio quando ele marca 2 horas?",opts:["30°","45°","60°","90°"],correta:2,
+  explicacao:"Das 12 às 2 há 2 intervalos de 30°: 2 × 30° = 60°.",
+  erradas:{0:"30° é 1 intervalo (1 hora).",1:"45° não é múltiplo de 30°, não bate com horas cheias.",3:"90° seriam 3 intervalos (3 horas)."}},
+ {q:"Às 6 horas, o ângulo entre os ponteiros é um ângulo:",opts:["Agudo de 60°","Reto de 90°","Raso de 180°","Obtuso de 150°"],correta:2,
+  explicacao:"Das 12 às 6 há 6 intervalos: 6 × 30° = 180°, um ângulo raso.",
+  erradas:{0:"60° seria às 2 horas.",1:"90° seria às 3 horas.",3:"150° seria às 5 horas."}},
+
+ // ===== BLOCO DIVISIBILIDADE =====
+ {bloco:"⚛️ Bloco 2 — Reator de Divisão (Divisibilidade)"},
+ {q:"Quando dizemos que um número é divisível por outro?",opts:["Quando a divisão deixa resto 1","Quando o resto da divisão é zero","Quando o número é maior que o outro","Quando termina em 9"],correta:1,
+  explicacao:"Divisível significa divisão exata: o resto é zero.",
+  erradas:{0:"Resto 1 significa que a divisão não é exata.",2:"O tamanho do número não determina divisibilidade.",3:"Terminar em 9 não garante divisão exata."}},
+ {q:"Se 56 ÷ 7 = 8 com resto 0, é correto afirmar que:",opts:["56 não é divisível por 7","56 é múltiplo de 7","7 é maior que 56","56 é ímpar por isso"],correta:1,
+  explicacao:"Resto zero: 56 é divisível por 7, é múltiplo de 7 e 7 é divisor de 56.",
+  erradas:{0:"É divisível, sim, pois o resto é zero.",2:"7 é menor que 56.",3:"56 é par; e isso não tem a ver com a divisão por 7."}},
+ {q:"Qual dos números abaixo é divisível por 2?",opts:["47","133","316","205"],correta:2,
+  explicacao:"316 é par (termina em 6), então é divisível por 2.",
+  erradas:{0:"47 é ímpar (termina em 7).",1:"133 é ímpar (termina em 3).",3:"205 é ímpar (termina em 5)."}},
+ {q:"Por que o número 231 é divisível por 3?",opts:["Porque termina em 1","Porque a soma 2+3+1 = 6 é divisível por 3","Porque é ímpar","Porque termina em 31"],correta:1,
+  explicacao:"Critério do 3: a soma dos algarismos (2+3+1 = 6) é divisível por 3.",
+  erradas:{0:"O último algarismo não decide a divisibilidade por 3.",2:"Ser ímpar não tem relação com o critério do 3.",3:"O critério do 3 usa a soma dos algarismos, não os dois últimos."}},
+ {q:"Para saber se 724 é divisível por 4, o que devemos verificar?",opts:["Se a soma dos algarismos é divisível por 4","Se os dois últimos algarismos (24) formam número divisível por 4","Se termina em 0 ou 5","Se é um número ímpar"],correta:1,
+  explicacao:"Critério do 4: os dois últimos algarismos, '24', formam número divisível por 4 (24 ÷ 4 = 6). Logo 724 é divisível por 4.",
+  erradas:{0:"Somar os algarismos é o critério do 3 e do 9, não do 4.",2:"Terminar em 0 ou 5 é o critério do 5.",3:"Ser ímpar não decide a divisibilidade por 4."}},
+ {q:"Qual número é divisível por 5?",opts:["132","251","470","1 234"],correta:2,
+  explicacao:"470 termina em 0, então é divisível por 5.",
+  erradas:{0:"132 termina em 2.",1:"251 termina em 1.",3:"1 234 termina em 4."}},
+ {q:"Um número é divisível por 6 quando é divisível, ao mesmo tempo, por:",opts:["1 e 6","2 e 3","3 e 5","4 e 9"],correta:1,
+  explicacao:"Critério do 6: ser divisível por 2 e por 3 ao mesmo tempo.",
+  erradas:{0:"Todo número é divisível por 1, isso não ajuda.",2:"3 e 5 são os critérios de outros números.",3:"4 e 9 não formam o critério do 6."}},
+ {q:"Por que 504 é divisível por 9?",opts:["Porque é par","Porque a soma 5+0+4 = 9 é divisível por 9","Porque termina em 4","Porque termina em 04"],correta:1,
+  explicacao:"Critério do 9: a soma dos algarismos (5+0+4 = 9) é divisível por 9.",
+  erradas:{0:"Ser par é o critério do 2, não do 9.",2:"O último algarismo não decide o critério do 9.",3:"O critério do 9 usa a soma dos algarismos, não os dois últimos."}},
+ {q:"Qual número é divisível por 10?",opts:["105","270","1 239","355"],correta:1,
+  explicacao:"270 termina em 0, então é divisível por 10.",
+  erradas:{0:"105 termina em 5 (divisível por 5, mas não por 10).",2:"1 239 termina em 9.",3:"355 termina em 5 (por 5, mas não por 10)."}},
+ {q:"Quais são os primeiros múltiplos de 4, começando do zero?",opts:["4, 8, 12, 16","0, 4, 8, 12, 16","1, 4, 8, 12","0, 2, 4, 6, 8"],correta:1,
+  explicacao:"Multiplicando 4 por 0, 1, 2, 3, 4 obtemos 0, 4, 8, 12, 16...",
+  erradas:{0:"Faltou o 0, que é sempre o primeiro múltiplo.",2:"1 não é múltiplo de 4.",3:"Esses são múltiplos de 2, não de 4."}},
+ {q:"Qual é o conjunto dos divisores de 16?",opts:["{0, 16, 32, 48}","{1, 2, 4, 8, 16}","{2, 4, 6, 8}","{1, 16}"],correta:1,
+  explicacao:"D(16) = {1, 2, 4, 8, 16}, pois 1×16, 2×8 e 4×4 dão 16.",
+  erradas:{0:"Esses são múltiplos de 16, não divisores.",2:"6 não divide 16 de forma exata.",3:"Faltam o 2, o 4 e o 8, que também dividem 16."}},
+ {q:"Sobre múltiplos e divisores, é correto afirmar que:",opts:["Os múltiplos são finitos e os divisores infinitos","Os múltiplos são infinitos e os divisores finitos","Ambos são infinitos","Ambos são finitos"],correta:1,
+  explicacao:"Todo número tem infinitos múltiplos (a lista não acaba) e uma quantidade finita de divisores.",
+  erradas:{0:"É o contrário: múltiplos são infinitos e divisores finitos.",2:"Os divisores são finitos, não infinitos.",3:"Os múltiplos são infinitos, não finitos."}},
+ {q:"O número 20 tem quantos divisores? (D(20) = {1, 2, 4, 5, 10, 20})",opts:["4 divisores","5 divisores","6 divisores","Infinitos divisores"],correta:2,
+  explicacao:"D(20) = {1, 2, 4, 5, 10, 20} tem 6 elementos, logo 6 divisores.",
+  erradas:{0:"São mais que 4; conte todos: 1,2,4,5,10,20.",1:"São 6, não 5.",3:"Divisores são sempre em quantidade finita."}},
+
+ // ===== BLOCO NÚMEROS ROMANOS =====
+ {bloco:"🔠 Bloco 3 — Analisando afirmativas (I, II, III, IV)"},
+ {q:"Analise as afirmativas sobre ângulos:",afirm:["I. Um ângulo reto mede 90°.","II. Um ângulo agudo mede mais de 90°.","III. O ângulo raso mede 180°.","IV. O transferidor mede ângulos em graus."],
+  opts:["Apenas I e II estão corretas","Apenas I, III e IV estão corretas","Apenas II e IV estão corretas","Apenas III e IV estão corretas"],correta:1,
+  explicacao:"I (reto = 90°), III (raso = 180°) e IV (transferidor mede em graus) estão corretas. A II está errada.",
+  erradas:{0:"A II está errada: agudo mede MENOS de 90°, não mais.",2:"A II está errada e a I e III estão corretas, então esta alternativa está incompleta/errada.",3:"Faltou a I, que também está correta."}},
+ {q:"Analise as afirmativas sobre divisibilidade:",afirm:["I. 24 é divisível por 6.","II. 45 é divisível por 9.","III. 100 é divisível por 3.","IV. 250 é divisível por 5."],
+  opts:["Apenas I e III estão corretas","Apenas II e IV estão corretas","Apenas I, II e IV estão corretas","Todas estão corretas"],correta:2,
+  explicacao:"I (24 é par e 2+4=6 → divisível por 6), II (4+5=9 → divisível por 9) e IV (250 termina em 0 → divisível por 5) estão corretas. A III está errada.",
+  erradas:{0:"A III está errada (1+0+0=1, não é divisível por 3) e a I está certa, mas faltam a II e IV.",1:"A I também está correta; a alternativa está incompleta.",3:"A III está errada: 100 não é divisível por 3."}},
+ {q:"Analise as afirmativas sobre múltiplos e divisores:",afirm:["I. O conjunto dos múltiplos de um número é infinito.","II. O número 1 é divisor de qualquer número natural.","III. O zero é múltiplo de qualquer número.","IV. Todo número tem uma quantidade infinita de divisores."],
+  opts:["Apenas I e IV estão corretas","Apenas II e III estão corretas","Apenas I, II e III estão corretas","Todas estão corretas"],correta:2,
+  explicacao:"I, II e III estão corretas. A IV está errada: a quantidade de divisores é FINITA.",
+  erradas:{0:"A IV está errada (divisores são finitos) e a II e III estão certas.",1:"A I também está correta; a alternativa está incompleta.",3:"A IV está errada: os divisores são em quantidade finita."}}
+];
+
+// separa cabeçalhos de bloco das questões
+const QUESTOES=SIM.filter(x=>x.q);
+const TOTAL=QUESTOES.length;
+let respostas=QUESTOES.map(()=>-1);
+let enviado=false,codigoLiberado=false,codigoGerado=null;
+const CHAVE='kit_mat6_angulos_divis_simulado_v1';
+
+// estrelas
+(function(){const c=document.getElementById('estrelas');for(let i=0;i<55;i++){const s=document.createElement('div');s.className='estrela';const t=1+Math.random()*2.4;s.style.width=t+'px';s.style.height=t+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDuration=(1.5+Math.random()*3)+'s';s.style.animationDelay=(-Math.random()*4)+'s';c.appendChild(s);}})();
+
+document.getElementById('totQ').textContent=TOTAL;
+
+function init(){
+ const area=document.getElementById('simArea');const letras=['A','B','C','D'];
+ let qi=-1;
+ SIM.forEach(item=>{
+   if(item.bloco){
+     const cls=item.bloco.includes('Reator')?'rea':(item.bloco.includes('afirmativas')?'rom':'');
+     area.innerHTML+=`<div class="bloco-tit ${cls}">${item.bloco}</div>`;return;
+   }
+   qi++;const i=qi;
+   let af=item.afirm?`<div class="afirm">${item.afirm.map(a=>`<div>${a}</div>`).join('')}</div>`:'';
+   let html=`<div class="q-card" id="qcard${i}"><div class="q-num">${i+1}</div><div class="q-texto">${i+1}. ${item.q}</div>${af}<div class="opcoes">`;
+   item.opts.forEach((opt,j)=>{html+=`<div class="opcao" id="opt${i}_${j}" onclick="selecionar(${i},${j})"><span class="opcao-letra">${letras[j]}</span><span>${opt}</span></div>`;});
+   html+=`</div><div class="feedback" id="fb${i}"></div></div>`;area.innerHTML+=html;
+ });
+ carregarProgresso();
+}
+function selecionar(qi,oi){
+ if(enviado)return;
+ for(let j=0;j<QUESTOES[qi].opts.length;j++)document.getElementById(`opt${qi}_${j}`).classList.remove('selecionada');
+ document.getElementById(`opt${qi}_${oi}`).classList.add('selecionada');
+ respostas[qi]=oi;
+ document.getElementById(`qcard${qi}`).classList.remove('faltando');
+ atualizarProgresso();salvarProgresso();
+}
+function atualizarProgresso(){
+ const resp=respostas.filter(r=>r>=0).length;const pct=Math.round(resp/TOTAL*100);
+ document.getElementById('progTexto').textContent=`${resp} de ${TOTAL} respondidas`;
+ document.getElementById('progPct').textContent=`${pct}%`;
+ document.getElementById('progFill').style.width=`${pct}%`;
+ const btn=document.getElementById('btnEnviar');
+ if(resp===TOTAL){btn.classList.remove('desabilitado');btn.classList.add('ativo');}else{btn.classList.add('desabilitado');btn.classList.remove('ativo');}
+}
+function tentarEnviar(){
+ if(enviado)return;
+ const faltando=[];respostas.forEach((r,i)=>{if(r<0)faltando.push(i+1);});
+ if(faltando.length>0){
+   const aviso=document.getElementById('avisoFaltam');
+   aviso.textContent=`Faltam responder: ${faltando.slice(0,10).join(', ')}${faltando.length>10?'...':''}`;aviso.style.display='block';
+   faltando.forEach(n=>{const card=document.getElementById(`qcard${n-1}`);card.classList.add('faltando');setTimeout(()=>card.classList.remove('faltando'),1200);});
+   document.getElementById(`qcard${faltando[0]-1}`).scrollIntoView({behavior:'smooth',block:'center'});return;
+ }
+ enviado=true;let acertos=0;respostas.forEach((r,i)=>{if(r===QUESTOES[i].correta)acertos++;});
+ const letras='ABCDEFGHJKLMNPQRSTUVWXYZ'; // sem I e O
+ const r1=letras[Math.floor(Math.random()*letras.length)];const r2=letras[Math.floor(Math.random()*letras.length)];
+ codigoGerado=`SIM-${String(acertos).padStart(2,'0')}-${r1}${r2}`;
+ const pct=Math.round(acertos/TOTAL*100);let emoji,titulo,msg;
+ if(pct>=80){emoji='🏆';titulo='Missão dominada!';msg='Você mandou muito bem em ângulos e divisibilidade!';}
+ else if(pct>=64){emoji='👏';titulo='Bom trabalho, cadete!';msg='Ótimo! Revise os poucos erros e fica perfeito.';}
+ else if(pct>=40){emoji='📚';titulo='Quase lá!';msg='Volte ao resumo e à leitura, e tente de novo. Você está perto!';}
+ else{emoji='💪';titulo='Não desista!';msg='Releia o resumo com calma e refaça. Você consegue!';}
+ document.getElementById('resEmoji').textContent=emoji;
+ document.getElementById('resTitulo').textContent=titulo;
+ document.getElementById('resNota').textContent=`${acertos}/${TOTAL}`;
+ document.getElementById('resMsg').textContent=msg;
+ document.getElementById('resCodigo').textContent=codigoGerado;
+ document.getElementById('resultadoOverlay').classList.add('visivel');
+ document.getElementById('rbNota').textContent=`📋 ${acertos}/${TOTAL}`;
+ document.getElementById('rbCodigo').textContent=codigoGerado;
+ document.getElementById('resultadoBarra').classList.add('visivel');
+ document.getElementById('progress-c')&&0;
+ document.getElementById('bottomBar').style.display='none';
+ salvarProgresso();
+}
+function fecharResultado(){
+ document.getElementById('resultadoOverlay').classList.remove('visivel');
+ if(!codigoLiberado){
+   const area=document.getElementById('simArea');
+   if(!document.getElementById('travaMsg')){
+     area.insertAdjacentHTML('afterbegin',`<div class="trava-msg visivel" id="travaMsg">🔒 <strong>Gabarito bloqueado.</strong><br>Seu código: <strong style="font-family:monospace;font-size:18px;color:#ffb27a;">${codigoGerado}</strong><br>Mostre para um adulto. Quando autorizar, digite-o abaixo:<br><br><input type="text" id="inputCodigo" placeholder="Digite o código" style="padding:10px 14px;border:2px solid var(--borda);border-radius:8px;font-size:16px;text-align:center;width:240px;font-family:monospace;text-transform:uppercase;background:#0a1533;color:#fff;"><br><br><button onclick="verificarCodigo()" style="padding:10px 24px;background:var(--azul);color:#022;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Nunito';">Liberar Gabarito</button><div id="codigoErro" style="color:#ffb3b3;font-size:12px;margin-top:8px;display:none;">Código incorreto. Peça ao adulto o código certo.</div></div>`);
+   }
+   window.scrollTo({top:0,behavior:'smooth'});
+ }
+}
+function verificarCodigo(){
+ const input=document.getElementById('inputCodigo').value.trim().toUpperCase();
+ if(input===codigoGerado){codigoLiberado=true;document.getElementById('travaMsg').style.display='none';liberarGabarito();salvarProgresso();}
+ else{document.getElementById('codigoErro').style.display='block';}
+}
+function liberarGabarito(){
+ const rbStatus=document.getElementById('rbStatus');rbStatus.textContent='✅ Gabarito liberado';rbStatus.classList.remove('bloqueado');rbStatus.classList.add('liberado');
+ const letras=['A','B','C','D'];
+ QUESTOES.forEach((q,i)=>{
+   const card=document.getElementById(`qcard${i}`);card.classList.add('bloqueada');
+   const escolheu=respostas[i];const acertou=escolheu===q.correta;
+   q.opts.forEach((_,j)=>{const opt=document.getElementById(`opt${i}_${j}`);if(j===q.correta)opt.classList.add('resposta-certa');if(j===escolheu&&acertou)opt.classList.add('correta');if(j===escolheu&&!acertou)opt.classList.add('errada');});
+   const fb=document.getElementById(`fb${i}`);fb.style.display='block';
+   if(acertou){fb.className='feedback acertou';fb.innerHTML=`<div class="feedback-titulo">✅ Você acertou!</div><div>${q.explicacao}</div>`;}
+   else{let e='';for(const[idx,m]of Object.entries(q.erradas))e+=`<p><strong>${letras[idx]})</strong> ${m}</p>`;
+     fb.className='feedback errou';fb.innerHTML=`<div class="feedback-titulo">❌ Resposta incorreta</div><div><strong style="color:#9af5cf">Correta: ${letras[q.correta]})</strong> ${q.explicacao}</div><div class="feedback-erradas"><strong>Por que as outras estão erradas:</strong>${e}</div>`;}
+ });
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function salvarProgresso(){try{const estado={respostas,enviado,codigoLiberado,codigoGerado,data:new Date().toISOString()};localStorage.setItem(CHAVE,JSON.stringify(estado));rotulo(estado.data);}catch(e){}}
+function carregarProgresso(){try{const d=localStorage.getItem(CHAVE);if(!d)return;const e=JSON.parse(d);
+  if(e.respostas)respostas=e.respostas;enviado=!!e.enviado;codigoLiberado=!!e.codigoLiberado;codigoGerado=e.codigoGerado;rotulo(e.data);
+  respostas.forEach((r,i)=>{if(r>=0){const el=document.getElementById(`opt${i}_${r}`);if(el)el.classList.add('selecionada');}});
+  atualizarProgresso();
+  if(enviado){document.getElementById('bottomBar').style.display='none';document.getElementById('resultadoBarra').classList.add('visivel');
+    let ac=0;respostas.forEach((r,i)=>{if(r===QUESTOES[i].correta)ac++;});
+    document.getElementById('rbNota').textContent=`📋 ${ac}/${TOTAL}`;document.getElementById('rbCodigo').textContent=codigoGerado||'';
+    if(codigoLiberado){liberarGabarito();}else{fecharResultado();}
+  }
+}catch(e){}}
+function rotulo(iso){const el=document.getElementById('ultimo');if(!iso){el.textContent='—';return;}const d=new Date(iso);el.textContent=d.toLocaleDateString('pt-BR')+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2000);}
+function exportar(){const d=localStorage.getItem(CHAVE);if(!d){alert('Nada para exportar ainda.');return;}const b=new Blob([d],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='progresso_simulado_mat6_angulos_divis.json';a.click();URL.revokeObjectURL(u);toast('📥 Exportado!');}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{JSON.parse(e.target.result);if(confirm('Substituir o progresso atual?')){localStorage.setItem(CHAVE,e.target.result);toast('📤 Importado!');setTimeout(()=>location.reload(),700);}}catch(x){alert('Arquivo inválido.');}};r.readAsText(f);ev.target.value='';}
+function zerar(){if(!confirm('Apagar todas as respostas?'))return;localStorage.removeItem(CHAVE);toast('🗑️ Zerado!');setTimeout(()=>location.reload(),700);}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛰️ Resumo — Estação Geometria | Ângulos & Divisibilidade</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fundo:#070d23;--card:#111d45;--card2:#16265c;--borda:#294a8f;
+  --azul:#4da6ff;--azul-claro:#8fd0ff;--laranja:#ff8c42;--laranja2:#ffb27a;
+  --verde:#3ad29f;--verde-bg:#0c3a34;--vermelho:#ff6b6b;--vermelho-bg:#4a1e2a;
+  --amarelo:#ffd34d;--texto:#eaf1ff;--texto2:#9fb3d9;--raio:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;color:var(--texto);
+  background:linear-gradient(180deg,#050818 0%,#070d23 30%,#0b1430 70%,#0e1a3e 100%);
+  background-attachment:fixed;min-height:100vh;line-height:1.6;}
+.estrelas{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.estrela{position:absolute;border-radius:50%;background:#fff;animation:pisca ease-in-out infinite;}
+@keyframes pisca{0%,100%{opacity:.2;}50%{opacity:1;}}
+
+.header{position:relative;z-index:1;background:linear-gradient(135deg,#0c2050,#123a7a);
+  text-align:center;padding:32px 18px 26px;border-bottom:4px solid var(--laranja);}
+.header .selo{display:inline-block;background:rgba(255,140,66,.15);border:1px solid var(--laranja);color:var(--laranja2);
+  font-size:11px;font-weight:800;letter-spacing:3px;padding:4px 14px;border-radius:20px;margin-bottom:10px;font-family:'Orbitron';}
+.header h1{font-family:'Orbitron';font-weight:800;font-size:clamp(22px,5vw,36px);text-shadow:0 2px 14px rgba(255,140,66,.35);}
+.header p{color:var(--texto2);font-size:14px;margin-top:8px;}
+
+.wrap{max-width:820px;margin:0 auto;padding:22px 16px 100px;position:relative;z-index:1;}
+.painel{background:rgba(17,29,69,.7);border:1px solid var(--borda);border-radius:12px;padding:10px 14px;margin-bottom:20px;
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;font-size:12px;}
+.painel .info{color:var(--texto2);flex:1;min-width:190px;}
+.painel .info b{color:var(--texto);}
+.painel .btns{display:flex;gap:6px;flex-wrap:wrap;}
+.mini{background:transparent;border:1px solid var(--borda);color:var(--texto2);padding:5px 11px;border-radius:16px;cursor:pointer;font-size:11px;font-weight:800;font-family:'Nunito';transition:.2s;}
+.mini:hover{border-color:var(--azul);color:var(--azul-claro);}
+.mini.zerar:hover{border-color:var(--vermelho);color:var(--vermelho);}
+
+.modulo{margin:28px 0 10px;font-family:'Orbitron';font-size:20px;display:flex;align-items:center;gap:10px;
+  border-left:5px solid var(--azul);padding:8px 14px;background:rgba(77,166,255,.08);border-radius:8px;}
+.modulo.rea{border-left-color:var(--laranja);background:rgba(255,140,66,.08);}
+.modulo .m-ic{font-size:26px;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:14px 0;}
+/* flip cards */
+.flip{background:transparent;perspective:1000px;min-height:150px;cursor:pointer;}
+.flip-in{position:relative;width:100%;height:100%;min-height:150px;transition:transform .6s;transform-style:preserve-3d;}
+.flip.on .flip-in{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:center;
+  border:1px solid var(--borda);box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.flip-front{background:linear-gradient(135deg,var(--card2),#0e2358);}
+.flip-front .ic{font-size:30px;margin-bottom:8px;}
+.flip-front .t{font-family:'Orbitron';font-size:15px;color:var(--azul-claro);}
+.flip-front .dica{font-size:11px;color:var(--texto2);margin-top:8px;}
+.flip-back{background:linear-gradient(135deg,#0c1c47,#132a63);transform:rotateY(180deg);font-size:14px;color:#dfeafc;overflow:auto;}
+.flip-back b{color:var(--amarelo);}
+.rea .flip-front .t{color:var(--laranja2);}
+
+.card{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:16px 18px;margin:14px 0;box-shadow:0 6px 20px rgba(0,0,0,.28);}
+.card h3{font-family:'Orbitron';font-size:16px;color:var(--azul-claro);margin-bottom:8px;}
+.rea .card h3,.card.rea h3{color:var(--laranja2);}
+.card p{font-size:15px;color:#dfeafc;margin-bottom:8px;}
+.tabela{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;}
+.tabela th,.tabela td{border:1px solid var(--borda);padding:9px 10px;text-align:left;}
+.tabela th{background:#0e2358;color:var(--azul-claro);font-family:'Orbitron';font-size:12.5px;}
+.tabela td b{color:var(--amarelo);}
+.tabela tr:nth-child(even) td{background:rgba(77,166,255,.05);}
+
+.postit{background:linear-gradient(135deg,#fff4c2,#ffe89a);color:#5b4a12;border-radius:6px;padding:12px 14px;margin:12px 0;
+  font-size:14.5px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.3);transform:rotate(-.4deg);}
+.postit::before{content:"📌 ";}
+.peg{background:var(--vermelho-bg);border:1px solid var(--vermelho);border-radius:8px;padding:12px 14px;margin:12px 0;font-size:14.5px;}
+.peg::before{content:"⚠️ Pegadinha: ";font-weight:800;color:var(--laranja2);}
+.exres{background:#0a1533;border:1px dashed var(--borda);border-radius:10px;padding:14px;margin:12px 0;font-size:14.5px;}
+.exres .et{font-family:'Orbitron';font-weight:700;color:var(--verde);font-size:12px;letter-spacing:1px;display:block;margin-bottom:8px;}
+.exres b{color:var(--azul-claro);}
+
+.gloss{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:16px 18px;margin:16px 0;}
+.gloss h3{font-family:'Orbitron';color:var(--amarelo);font-size:16px;margin-bottom:10px;}
+.gloss dt{font-weight:800;color:var(--azul-claro);margin-top:8px;}
+.gloss dd{font-size:14px;color:#dfeafc;margin-left:0;}
+
+.check{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:16px 18px;margin:16px 0;}
+.check h3{font-family:'Orbitron';color:var(--verde);font-size:16px;margin-bottom:10px;}
+.check label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:14.5px;cursor:pointer;border-bottom:1px solid rgba(41,74,143,.4);}
+.check input{width:20px;height:20px;accent-color:var(--verde);margin-top:2px;flex-shrink:0;cursor:pointer;}
+.check .done{color:var(--texto2);text-decoration:line-through;}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(40px);background:#0c2050;border:1px solid var(--azul);color:var(--texto);padding:12px 20px;border-radius:30px;font-weight:700;font-size:14px;z-index:99;opacity:0;transition:.3s;pointer-events:none;}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="estrelas" id="estrelas"></div>
+<div class="header">
+  <span class="selo">ESTAÇÃO GEOMETRIA · PAINEL DE RESUMO</span>
+  <h1>🛰️ Resumo Rápido</h1>
+  <p>Matemática · 6º ano · Ângulos & Divisibilidade — tudo que cai na prova, em cartões</p>
+</div>
+<div class="wrap">
+  <div class="painel">
+    <div class="info">💾 Sua revisão fica salva neste computador · Último salvamento: <b id="ultimo">—</b><br><span style="font-size:11px;">Toque nos cartões para virá-los. 👆</span></div>
+    <div class="btns">
+      <button class="mini" onclick="exportar()">📥 Exportar</button>
+      <label class="mini" style="cursor:pointer;">📤 Importar<input type="file" accept="application/json" onchange="importar(event)" style="display:none;"></label>
+      <button class="mini zerar" onclick="zerar()">🗑️ Zerar</button>
+    </div>
+  </div>
+
+  <!-- ===================== MÓDULO RADAR — ÂNGULOS ===================== -->
+  <div class="modulo"><span class="m-ic">📐</span> Módulo Radar — ÂNGULOS</div>
+
+  <div class="card">
+    <h3>O que é um ângulo?</h3>
+    <p>É a região do plano formada por <b>duas semirretas com a mesma origem</b>. Suas partes são os <b>lados</b> (as duas linhas) e o <b>vértice</b> (o ponto de encontro).</p>
+    <p>Notação: <span style="font-family:Orbitron;color:var(--laranja2)">A B̂ C</span> — a letra do <b>meio (B)</b> é sempre o <b>vértice</b>.</p>
+  </div>
+
+  <div class="grid" id="flips-ang"></div>
+
+  <div class="card">
+    <h3>Classificação pela medida (decorar!)</h3>
+    <table class="tabela">
+      <tr><th>Tipo</th><th>Medida</th><th>Como lembrar</th></tr>
+      <tr><td><b>Agudo</b></td><td>maior que 0° e menor que 90°</td><td>o "fechadinho"</td></tr>
+      <tr><td><b>Reto</b></td><td>exatamente 90°</td><td>a quina perfeita (⌐)</td></tr>
+      <tr><td><b>Obtuso</b></td><td>entre 90° e 180°</td><td>o "abertão"</td></tr>
+      <tr><td><b>Raso</b></td><td>exatamente 180°</td><td>vira linha reta (meia-volta)</td></tr>
+    </table>
+    <p>Duas retas que se cruzam formando <b>90°</b> são <b>perpendiculares</b>.</p>
+  </div>
+
+  <div class="exres"><span class="et">✔ EXEMPLO RESOLVIDO — RELÓGIO</span>
+    Que ângulo os ponteiros formam às <b>3 horas</b>?<br>
+    Cada número do relógio vale 360° ÷ 12 = <b>30°</b>. Das 12 às 3 há <b>3 intervalos</b>: 3 × 30° = <b>90°</b> (ângulo reto).</div>
+
+  <div class="postit">Medir: centro do transferidor no vértice, um lado no 0°. A unidade é o grau (°). Uma volta completa = 360°.</div>
+  <div class="peg">obtuso é maior que 90° <b>e</b> menor que 180°. 90° é sempre reto; 180° é sempre raso — não confunda!</div>
+
+  <!-- ===================== REATOR — DIVISIBILIDADE ===================== -->
+  <div class="modulo rea"><span class="m-ic">⚛️</span> Reator de Divisão — DIVISIBILIDADE</div>
+
+  <div class="card rea">
+    <h3>Divisível, múltiplo e divisor</h3>
+    <p>Um número é <b>divisível</b> por outro quando a divisão é <b>exata</b> (resto <b>zero</b>).</p>
+    <p>Se 56 ÷ 7 dá resto 0, então: 56 é <b>divisível</b> por 7 = 56 é <b>múltiplo</b> de 7 = 7 é <b>divisor</b> de 56. Tudo a mesma ideia!</p>
+  </div>
+
+  <div class="card rea">
+    <h3>Critérios de divisibilidade (o coração da prova)</h3>
+    <table class="tabela">
+      <tr><th>Divisível por</th><th>Regra rápida</th><th>Exemplo</th></tr>
+      <tr><td><b>2</b></td><td>é par (termina em 0,2,4,6,8)</td><td>238 → sim</td></tr>
+      <tr><td><b>3</b></td><td>a soma dos algarismos é divisível por 3</td><td>231 → 2+3+1=6 ✓</td></tr>
+      <tr><td><b>4</b></td><td>os 2 últimos algarismos formam nº divisível por 4</td><td>432 → "32" ✓</td></tr>
+      <tr><td><b>5</b></td><td>termina em 0 ou 5</td><td>1 545 → sim</td></tr>
+      <tr><td><b>6</b></td><td>é divisível por 2 e por 3 ao mesmo tempo</td><td>264 → par e soma 12 ✓</td></tr>
+      <tr><td><b>9</b></td><td>a soma dos algarismos é divisível por 9</td><td>504 → 5+0+4=9 ✓</td></tr>
+      <tr><td><b>10</b></td><td>termina em 0</td><td>270 → sim</td></tr>
+    </table>
+  </div>
+
+  <div class="grid rea" id="flips-div"></div>
+
+  <div class="exres"><span class="et">✔ EXEMPLO RESOLVIDO — CRITÉRIOS</span>
+    O número <b>264</b> é divisível por 6?<br>
+    Teste do 2: 264 é par ✓. Teste do 3: 2+6+4 = 12, e 12 é divisível por 3 ✓. Passou nos dois → <b>264 é divisível por 6</b>.</div>
+
+  <div class="card rea">
+    <h3>Múltiplos × Divisores (não confundir!)</h3>
+    <table class="tabela">
+      <tr><th></th><th>Múltiplos</th><th>Divisores</th></tr>
+      <tr><td>O que é</td><td>tabuada esticada (× 0,1,2,3...)</td><td>números que dividem exato</td></tr>
+      <tr><td>Quantidade</td><td><b>infinitos</b></td><td><b>finitos</b></td></tr>
+      <tr><td>Exemplo</td><td>M(6)={0,6,12,18,24,...}</td><td>D(16)={1,2,4,8,16}</td></tr>
+    </table>
+    <p>Sempre: o <b>0 é múltiplo de qualquer número</b>; e <b>1 e o próprio número</b> são divisores dele.</p>
+  </div>
+
+  <div class="postit">Múltiplo = número × (0,1,2,3...). Divisor = número que reparte sem sobrar. Múltiplos crescem sem fim; divisores são poucos.</div>
+  <div class="peg">nem todo divisível por 3 é divisível por 6! 15 é divisível por 3, mas é ímpar → não passa no teste do 2 → não é divisível por 6.</div>
+
+  <!-- ===================== GLOSSÁRIO ===================== -->
+  <div class="gloss">
+    <h3>📖 Glossário do cadete</h3>
+    <dl>
+      <dt>Vértice</dt><dd>ponto onde os dois lados do ângulo se encontram.</dd>
+      <dt>Grau (°)</dt><dd>unidade de medida do ângulo; uma volta completa tem 360°.</dd>
+      <dt>Perpendiculares</dt><dd>duas retas que se cruzam formando 90°.</dd>
+      <dt>Divisão exata</dt><dd>divisão em que o resto é zero.</dd>
+      <dt>Múltiplo</dt><dd>resultado de multiplicar um número por 0, 1, 2, 3... (M(4)={0,4,8,...}).</dd>
+      <dt>Divisor</dt><dd>número que divide outro de forma exata (D(12)={1,2,3,4,6,12}).</dd>
+    </dl>
+  </div>
+
+  <!-- ===================== CHECKLIST ===================== -->
+  <div class="check">
+    <h3>✅ Checklist de revisão (marque o que já domina)</h3>
+    <div id="checklist"></div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+const CHAVE='kit_mat6_angulos_divis_resumo_v1';
+let estado={flip:{},check:{},data:null};
+
+// estrelas
+(function(){const c=document.getElementById('estrelas');for(let i=0;i<55;i++){const s=document.createElement('div');s.className='estrela';const t=1+Math.random()*2.4;s.style.width=t+'px';s.style.height=t+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDuration=(1.5+Math.random()*3)+'s';s.style.animationDelay=(-Math.random()*4)+'s';c.appendChild(s);}})();
+
+const FLIPS_ANG=[
+ {ic:"📐",t:"Lados e vértice",back:"<b>Lados</b> = as duas semirretas. <b>Vértice</b> = o ponto onde elas se encontram (a origem comum)."},
+ {ic:"🔤",t:"Como nomear",back:"Usamos 3 letras, e a do <b>meio</b> é o vértice. Sem confusão, dá para chamar só pelo vértice."},
+ {ic:"🧭",t:"Como medir",back:"Com o <b>transferidor</b>: centro no vértice, um lado no 0°. Unidade = <b>grau (°)</b>."},
+ {ic:"🕐",t:"No relógio",back:"Cada número vale <b>30°</b> (360÷12). Conte os intervalos entre os ponteiros × 30°."}
+];
+const FLIPS_DIV=[
+ {ic:"⚛️",t:"Resto zero",back:"Divisível = divisão <b>exata</b> (resto 0). Aí vale divisível = múltiplo = divisor."},
+ {ic:"♾️",t:"Múltiplos",back:"São <b>infinitos</b>. Comece no 0: M(5)={0,5,10,15,...}. O 0 é múltiplo de todos."},
+ {ic:"🧩",t:"Divisores",back:"São <b>finitos</b>. 1 e o próprio número sempre entram. D(20)={1,2,4,5,10,20}."},
+ {ic:"🔎",t:"Critério do 6",back:"Divisível por 6 = passar em <b>dois</b> testes: o do 2 <b>e</b> o do 3."}
+];
+const CHECKS=[
+ "Sei o que é um ângulo (2 semirretas, mesma origem) e suas partes (lados e vértice).",
+ "Sei nomear um ângulo com 3 letras (a do meio é o vértice).",
+ "Sei medir com transferidor e que a unidade é o grau (°).",
+ "Sei classificar: agudo (<90°), reto (90°), obtuso (90°–180°), raso (180°).",
+ "Sei calcular o ângulo dos ponteiros do relógio (30° por número).",
+ "Entendo divisível, múltiplo e divisor (resto zero).",
+ "Sei os critérios de divisibilidade por 2, 3, 4, 5, 6, 9 e 10.",
+ "Sei a diferença entre múltiplos (infinitos) e divisores (finitos)."
+];
+
+function renderFlips(){
+ const mk=(arr,id)=>{const box=document.getElementById(id);box.innerHTML='';arr.forEach((f,i)=>{
+   const key=id+'_'+i;const on=estado.flip[key]?' on':'';
+   const d=document.createElement('div');d.className='flip'+on;d.onclick=()=>{estado.flip[key]=!estado.flip[key];d.classList.toggle('on');salvar();};
+   d.innerHTML=`<div class="flip-in"><div class="flip-face flip-front"><div class="ic">${f.ic}</div><div class="t">${f.t}</div><div class="dica">toque para ver 👆</div></div><div class="flip-face flip-back">${f.back}</div></div>`;
+   box.appendChild(d);});};
+ mk(FLIPS_ANG,'flips-ang');mk(FLIPS_DIV,'flips-div');
+}
+function renderChecks(){
+ const box=document.getElementById('checklist');box.innerHTML='';
+ CHECKS.forEach((c,i)=>{
+   const ck=estado.check[i]?'checked':'';
+   const lab=document.createElement('label');
+   lab.innerHTML=`<input type="checkbox" ${ck} onchange="toggleCheck(${i},this)"><span class="txt ${estado.check[i]?'done':''}">${c}</span>`;
+   box.appendChild(lab);
+ });
+}
+function toggleCheck(i,el){estado.check[i]=el.checked;el.nextElementSibling.classList.toggle('done',el.checked);salvar();}
+
+function salvar(){try{estado.data=new Date().toISOString();localStorage.setItem(CHAVE,JSON.stringify(estado));rotulo(estado.data);}catch(e){}}
+function carregar(){try{const d=localStorage.getItem(CHAVE);if(!d)return;const e=JSON.parse(d);estado.flip=e.flip||{};estado.check=e.check||{};estado.data=e.data;rotulo(e.data);}catch(e){}}
+function rotulo(iso){const el=document.getElementById('ultimo');if(!iso){el.textContent='—';return;}const d=new Date(iso);el.textContent=d.toLocaleDateString('pt-BR')+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2000);}
+function exportar(){const d=localStorage.getItem(CHAVE);if(!d){alert('Nada para exportar ainda.');return;}const b=new Blob([d],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='progresso_resumo_mat6_angulos_divis.json';a.click();URL.revokeObjectURL(u);toast('📥 Exportado!');}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{JSON.parse(e.target.result);if(confirm('Substituir a revisão atual?')){localStorage.setItem(CHAVE,e.target.result);toast('📤 Importado!');setTimeout(()=>location.reload(),700);}}catch(x){alert('Arquivo inválido.');}};r.readAsText(f);ev.target.value='';}
+function zerar(){if(!confirm('Apagar toda a revisão marcada?'))return;localStorage.removeItem(CHAVE);toast('🗑️ Zerado!');setTimeout(()=>location.reload(),700);}
+
+carregar();renderFlips();renderChecks();
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛰️ Estação Geometria — Kit de Estudos | Ângulos & Divisibilidade (6º ano)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito','Segoe UI',sans-serif;background:linear-gradient(160deg,#050818 0%,#070d23 40%,#0b1430 75%,#0e1a3e 100%);color:#eaf1ff;min-height:100vh;padding:20px;line-height:1.55;}
+  .container{max-width:920px;margin:0 auto;}
+  .capa{background:linear-gradient(135deg,#0c2050 0%,#123a7a 60%,#1b2b5e 100%);border:3px solid #4da6ff;border-radius:20px;padding:40px 30px;text-align:center;box-shadow:0 0 40px rgba(77,166,255,.35);margin-bottom:25px;position:relative;overflow:hidden;}
+  .capa .badge{display:inline-block;background:#4da6ff;color:#06122e;font-family:'Orbitron',monospace;font-size:11px;font-weight:800;padding:5px 14px;border-radius:6px;letter-spacing:3px;margin-bottom:14px;}
+  .capa h1{font-family:'Orbitron';font-size:2.1em;color:#fff;text-shadow:0 0 15px #4da6ff;margin-bottom:10px;}
+  .capa .sub{color:#cfe0ff;font-size:1.1em;margin-bottom:14px;}
+  .capa .narr{color:#fff;font-size:.98em;font-style:italic;border-top:1px dashed #4da6ff;padding-top:12px;margin-top:12px;}
+  .intro{background:rgba(17,29,69,.7);border:2px solid #294a8f;border-radius:12px;padding:20px 25px;margin-bottom:22px;}
+  .intro h2{font-family:'Orbitron';color:#8fd0ff;font-size:1.15em;margin-bottom:10px;}
+  .intro p{margin-bottom:8px;}
+  .intro b{color:#ffd34d;}
+  .aviso{background:rgba(77,166,255,.1);border:1.5px dashed #4da6ff;border-radius:10px;padding:14px 18px;margin-bottom:22px;font-size:.95em;}
+  .aviso b{color:#8fd0ff;}
+  .materiais{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:26px;}
+  .card-material{background:rgba(17,29,69,.75);border:2.5px solid;border-radius:15px;padding:20px 24px;text-decoration:none;color:#eaf1ff;display:block;transition:all .3s;}
+  .card-material:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(77,166,255,.35);}
+  .card-1{border-color:#4da6ff;}.card-1 .card-titulo{color:#a9d8ff;}
+  .card-2{border-color:#3ad29f;}.card-2 .card-titulo{color:#8df0c8;}
+  .card-3{border-color:#ff6b6b;}.card-3 .card-titulo{color:#ffb3b3;}
+  .card-4{border-color:#ff8c42;}.card-4 .card-titulo{color:#ffb27a;}
+  .card-cabecalho{display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap;}
+  .card-icone{font-size:2.3em;}
+  .card-titulo{font-family:'Orbitron';font-size:1.15em;font-weight:700;flex:1;min-width:200px;}
+  .card-etiqueta{background:rgba(77,166,255,.18);color:#8fd0ff;padding:4px 12px;border-radius:15px;font-size:.78em;border:1px solid #4da6ff;font-weight:800;}
+  .card-descricao{color:#cfe0ff;font-size:.98em;margin-bottom:10px;}
+  .card-acessar{color:#fff;font-weight:800;text-align:right;font-size:.98em;}
+  .card-acessar::after{content:" →";margin-left:4px;transition:margin .3s;}
+  .card-material:hover .card-acessar::after{margin-left:12px;}
+  .cronograma{background:rgba(17,29,69,.7);border:2px solid #3ad29f;border-radius:15px;padding:22px 25px;margin-bottom:22px;}
+  .cronograma h2{font-family:'Orbitron';color:#8df0c8;font-size:1.2em;margin-bottom:14px;border-bottom:1px solid #3ad29f;padding-bottom:8px;}
+  .dia{background:rgba(0,0,0,.25);border-radius:10px;padding:13px 16px;margin-bottom:10px;border-left:4px solid #3ad29f;}
+  .dia-titulo{color:#8df0c8;font-weight:800;font-size:1.03em;margin-bottom:4px;}
+  .dia-conteudo b{color:#ffd34d;}
+  .dica-mae{background:rgba(255,140,66,.12);border:2px dashed #ff8c42;border-radius:12px;padding:18px 22px;margin-bottom:22px;color:#ffe0cf;}
+  .dica-mae h2{font-family:'Orbitron';color:#ff8c42;font-size:1.1em;margin-bottom:10px;}
+  .dica-mae p{margin-bottom:8px;font-size:.95em;}
+  .dica-mae b{color:#ffd34d;}
+  .dica-mae code{background:rgba(0,0,0,.4);padding:2px 8px;border-radius:4px;font-family:monospace;color:#ffb27a;font-weight:700;}
+  .rodape{text-align:center;color:#8fd0ff;font-style:italic;padding:18px;border-top:1px dashed #4da6ff;margin-top:10px;font-size:.9em;}
+  @media(max-width:600px){.capa h1{font-size:1.5em;}.card-titulo{font-size:1em;}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="capa">
+    <div class="badge">MATEMÁTICA • 6º ANO • AVALIAÇÃO MENSAL 1</div>
+    <h1>🛰️ Estação Geometria</h1>
+    <div class="sub">Kit de Estudos — Ângulos & Divisibilidade (2º trimestre)</div>
+    <div class="narr">Bem-vindo(a) a bordo, jovem aprendiz! Sua missão tem dois módulos: o <b>Radar</b>, onde você domina os ângulos, e o <b>Reator de Divisão</b>, onde separa os números. Siga a ordem dos materiais e chegue pronto(a) no dia da prova. 🚀</div>
+  </div>
+
+  <div class="intro">
+    <h2>🧭 Como funciona</h2>
+    <p>Kit completo para a prova de Matemática do 6º ano — conteúdo: <b>Ângulos</b> (págs. 104–118) e <b>Divisibilidade</b> (págs. 124–138). São <b>4 materiais</b> que se completam:</p>
+    <p>1️⃣ Aprenda com a <b>Leitura Estendida</b> → 2️⃣ revise com o <b>Resumo</b> → 3️⃣ teste-se no <b>Simulado</b> → 4️⃣ leve a <b>Folha de Regras impressa</b> no dia da prova.</p>
+    <p>Os materiais em HTML <b>salvam o progresso sozinhos</b> no navegador — pode fechar e voltar depois que continua de onde parou.</p>
+  </div>
+
+  <div class="aviso">💾 <b>Sobre o salvamento:</b> o progresso fica salvo no <b>navegador em uso</b> (o Chrome do celular é diferente do Chrome do computador). Para passar o progresso de um aparelho para outro, use os botões <b>📥 Exportar</b> e <b>📤 Importar</b> dentro de cada material.</div>
+
+  <div class="materiais">
+
+    <a href="leitura-estendida.html" class="card-material card-1">
+      <div class="card-cabecalho">
+        <div class="card-icone">📚</div>
+        <div class="card-titulo">Leitura Estendida com Fixação</div>
+        <div class="card-etiqueta">⭐ COMECE AQUI</div>
+      </div>
+      <div class="card-descricao">Todo o conteúdo em 10 setores (5 de ângulos + 5 de divisibilidade), cada um com exercícios. O próximo setor só abre quando você acerta pelo menos <b>70%</b> — assim você domina antes de avançar.</div>
+      <div class="card-acessar">Entrar na estação</div>
+    </a>
+
+    <a href="resumo.html" class="card-material card-2">
+      <div class="card-cabecalho">
+        <div class="card-icone">🗂️</div>
+        <div class="card-titulo">Resumo Rápido</div>
+        <div class="card-etiqueta">REVISÃO</div>
+      </div>
+      <div class="card-descricao">Tudo que cai na prova em cartões, tabelas e cartões que viram (flip cards): classificação de ângulos, relógio, critérios de divisibilidade, múltiplos e divisores, glossário e um checklist de revisão.</div>
+      <div class="card-acessar">Abrir o resumo</div>
+    </a>
+
+    <a href="simulado.html" class="card-material card-3">
+      <div class="card-cabecalho">
+        <div class="card-icone">🎯</div>
+        <div class="card-titulo">Simulado</div>
+        <div class="card-etiqueta">TESTE-SE</div>
+      </div>
+      <div class="card-descricao">29 questões no estilo da prova (objetivas + 3 de afirmativas I, II, III, IV), com correção comentada. Ao terminar, gera um <b>código</b> para você liberar o gabarito só depois — combinado com um adulto.</div>
+      <div class="card-acessar">Fazer o simulado</div>
+    </a>
+
+    <a href="mapa-mental.pdf" class="card-material card-4">
+      <div class="card-cabecalho">
+        <div class="card-icone">🖨️</div>
+        <div class="card-titulo">Folha de Regras (PDF)</div>
+        <div class="card-etiqueta">IMPRIMIR</div>
+      </div>
+      <div class="card-descricao">Um resumão de uma página só, em A4 paisagem, com as regras separadas por cor: ângulos, critérios de divisibilidade, múltiplos, divisores e as pegadinhas. Imprima e cole na parede!</div>
+      <div class="card-acessar">Abrir o PDF</div>
+    </a>
+
+  </div>
+
+  <div class="cronograma">
+    <h2>📅 Sugestão de cronograma</h2>
+    <div class="dia"><div class="dia-titulo">Dia 1 — Ângulos</div><div class="dia-conteudo">Faça os <b>setores 1 a 5</b> da Leitura Estendida (Módulo Radar). Depois abra o Resumo e revise a parte de ângulos.</div></div>
+    <div class="dia"><div class="dia-titulo">Dia 2 — Divisibilidade</div><div class="dia-conteudo">Faça os <b>setores 6 a 10</b> da Leitura Estendida (Reator de Divisão). Revise os critérios no Resumo.</div></div>
+    <div class="dia"><div class="dia-titulo">Dia 3 — Treino</div><div class="dia-conteudo">Faça o <b>Simulado</b> inteiro. Confira o gabarito comentado e volte à Leitura nos pontos que errou.</div></div>
+    <div class="dia"><div class="dia-titulo">Véspera da prova</div><div class="dia-conteudo">Leia a <b>Folha de Regras</b> impressa e refaça as questões que você errou. Descanse bem! 😴</div></div>
+  </div>
+
+  <div class="dica-mae">
+    <h2>👩‍🏫 Dica para a mãe/responsável</h2>
+    <p>No <b>Simulado</b>, quando o(a) aluno(a) termina, aparece um <b>código</b> parecido com <code>SIM-24-KP</code>. O gabarito comentado só é liberado quando esse código é digitado.</p>
+    <p>A ideia é simples: a criança faz a prova <b>sozinha</b>, te mostra o código, e você autoriza a correção. O número no meio do código (ex.: <b>24</b>) já é a <b>quantidade de acertos</b> — dá para saber como foi só de olhar. 😉</p>
+  </div>
+
+  <div class="rodape">Estação Geometria · Kit de Estudos · Matemática 6º ano — Ângulos & Divisibilidade 🛰️</div>
+
+</div>
+</body>
+</html>
